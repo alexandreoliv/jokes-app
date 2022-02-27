@@ -2,13 +2,19 @@ import React, { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { fetchCounterAsync, decrement, selectCount } from "./counterSlice";
 import styles from "./Counter.module.css";
+// import { Loading } from "../../components/Loading";
+import { Oval } from "react-loader-spinner";
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
+import { server } from "../../mock-server"; // our fake JokeAPI
+// import { useGetJokesQuery } from "../../services/getJokes";
+server(); // our fake JokeAPI
 
 export function Counter() {
 	const count = useAppSelector(selectCount);
 	const dispatch = useAppDispatch();
-	const [incrementAmount, setIncrementAmount] = useState("2");
+	// const { data, error, isLoading, isSuccess, isError } = useGetJokesQuery();
 
-	const incrementValue = Number(incrementAmount) || 0;
 	const fakeJokes = [
 		{
 			id: "1",
@@ -46,6 +52,10 @@ export function Counter() {
 	return (
 		<div>
 			<div className={styles.row}>
+				{count.status === "loading" && "Loading..."}
+				{count.status === "loading" && (
+					<Oval color="#00BFFF" height={30} width={30} />
+				)}
 				{count.jokes.map((joke) => (
 					<div key={joke.id}>
 						<p>ID: {joke.id}</p>

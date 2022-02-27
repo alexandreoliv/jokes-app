@@ -1,8 +1,8 @@
 // A mock function to mimic making an async request for data
 export function fetchCount(joke: any) {
-  return new Promise<{ data: any }>((resolve) =>
-    setTimeout(() => resolve({ data: joke }), 500)
-  );
+	return new Promise<{ data: any }>((resolve) =>
+		setTimeout(() => resolve({ data: joke }), 2000)
+	);
 }
 
 // Original code:
