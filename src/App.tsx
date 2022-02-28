@@ -1,6 +1,6 @@
 import React from "react";
 import { Jokebox } from "./features/jokebox/Jokebox";
-import { Favourites } from "./features/favourites/Favourites";
+// import { Favourites } from "./features/favourites/Favourites";
 import "./App.css";
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
 		<div className="App">
 			<header className="App-header">
 				<Jokebox />
-				<Favourites />
+				{/* <Favourites /> */}
 			</header>
 		</div>
 	);
