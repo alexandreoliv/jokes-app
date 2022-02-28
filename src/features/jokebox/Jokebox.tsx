@@ -3,6 +3,7 @@ import {
 	fetchJokeboxAsync,
 	fetchBonusJokeAsync,
 	removeLastJoke,
+	changeFavourite,
 	selectJokebox,
 } from "./jokeboxSlice";
 import styles from "./Jokebox.module.css";
@@ -25,7 +26,7 @@ export function Jokebox() {
 						className={styles.asyncButton}
 						onClick={() => dispatch(fetchJokeboxAsync(jokes))}
 					>
-						(Async) Add All Jokes
+						(Async) Fetch All Jokes
 					</button>
 					<button
 						className={styles.button}
@@ -54,7 +55,7 @@ export function Jokebox() {
 							<p>Favourite: {joke.favourite ? "Yes" : "No"}</p>
 							<button
 								onClick={() =>
-									dispatch(fetchBonusJokeAsync(bonusJoke))
+									dispatch(changeFavourite(joke.id - 1))
 								}
 							>
 								Add to favourites
