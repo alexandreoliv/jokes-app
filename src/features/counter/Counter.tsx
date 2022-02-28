@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
 	fetchCounterAsync,
@@ -9,8 +8,8 @@ import {
 import styles from "./Counter.module.css";
 import { Oval } from "react-loader-spinner";
 
+////////////////////// Server configuration //////////////////////
 import { server } from "../../mock-server"; // our fake JokeAPI
-// import { useGetJokesQuery } from "../../services/getJokes";
 server(); // our fake JokeAPI
 
 const axios = require("axios");
@@ -33,13 +32,14 @@ function connectEndpoint(endpoint: string) {
 		});
 }
 
+const server1 = connectEndpoint("http://localhost:3000/api/v1/readiness");
+const server2 = connectEndpoint("http://localhost:3000/api/v2/readiness");
+////////////////////// Server configuration //////////////////////
+
 export function Counter() {
 	const count = useAppSelector(selectCount);
 	const dispatch = useAppDispatch();
 	// const { data, error, isLoading, isSuccess, isError } = useGetJokesQuery();
-
-	const server1 = connectEndpoint("http://localhost:3000/api/v1/readiness");
-	const server2 = connectEndpoint("http://localhost:3000/api/v2/readiness");
 
 	const fakeJokes = [
 		{
@@ -96,6 +96,7 @@ export function Counter() {
 						<p>Type: {joke.type}</p>
 						<p>Question: {joke.question}</p>
 						<p>Answer: {joke.answer}</p>
+						<button>Add to favourites</button>
 					</div>
 				))}
 				{console.log(count)}
