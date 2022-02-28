@@ -1,11 +1,9 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import jokeboxReducer from "../features/jokebox/jokeboxSlice";
-// import favouritesReducer from "../features/favourites/favouritesSlice";
 
 export const store = configureStore({
 	reducer: {
 		jokebox: jokeboxReducer,
-		// favourites: favouritesReducer,
 	},
 });
 

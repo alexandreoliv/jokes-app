@@ -2,7 +2,7 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
 	fetchJokeboxAsync,
 	fetchBonusJokeAsync,
-	decrement,
+	removeLastJoke,
 	selectJokebox,
 } from "./jokeboxSlice";
 import styles from "./Jokebox.module.css";
@@ -10,8 +10,8 @@ import { Oval } from "react-loader-spinner";
 import connectToServer from "../../components/server";
 import { jokes, bonusJoke } from "../../components/jokes";
 
-const server1 = connectToServer("http://localhost:3000/api/v1/readiness");
-const server2 = connectToServer("http://localhost:3000/api/v2/readiness");
+connectToServer("http://localhost:3000/api/v1/readiness");
+connectToServer("http://localhost:3000/api/v2/readiness");
 
 export function Jokebox() {
 	const jokebox = useAppSelector(selectJokebox);
@@ -29,7 +29,7 @@ export function Jokebox() {
 					</button>
 					<button
 						className={styles.button}
-						onClick={() => dispatch(decrement())}
+						onClick={() => dispatch(removeLastJoke())}
 					>
 						Delete Last Joke
 					</button>
