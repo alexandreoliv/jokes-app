@@ -25,24 +25,6 @@ export function Favourites() {
 				))}
 				{console.log(favourites)}
 			</div>
-			{/* <button
-				className={styles.asyncButton}
-				onClick={() => dispatch(fetchCounterAsync(fakeJokes))}
-			>
-				(Async) Add All Jokes
-			</button>
-			<button
-				className={styles.button}
-				onClick={() => dispatch(decrement())}
-			>
-				Delete Last Joke
-			</button>
-			<button
-				className={styles.button}
-				onClick={() => dispatch(fetchExtraJokeAsync(extraJoke))}
-			>
-				(Async) Add Extra Joke
-			</button> */}
 		</div>
 	);
 }

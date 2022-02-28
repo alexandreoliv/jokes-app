@@ -1,52 +1,39 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
-import { fetchCount, fetchExtraJoke } from "./counterAPI";
+import { Joke } from "../../types/Joke";
+import { fetchJokebox, fetchBonusJoke } from "./jokeboxAPI";
 
-export interface CounterState {
+export interface JokeboxState {
 	// value: number;
-	jokes: void[];
+	jokes: object[];
 	status: "idle" | "loading" | "failed";
 }
 
-const initialState: CounterState = {
+const initialState: JokeboxState = {
 	jokes: [],
 	status: "idle",
 };
 
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched. Thunks are
-// typically used to make async requests.
-// export const incrementAsync = createAsyncThunk(
-// 	"counter/fetchCount",
-// 	async (amount: number) => {
-// 		const response = await fetchCount(amount);
-// 		// The value we return becomes the `fulfilled` action payload
-// 		return response.data;
-// 	}
-// );
-
-export const fetchCounterAsync = createAsyncThunk(
-	"counter/fetchCount",
+export const fetchJokeboxAsync = createAsyncThunk(
+	"jokebox/fetchJokebox",
 	async (joke: any) => {
-		const response = await fetchCount(joke);
+		const response = await fetchJokebox(joke);
 		// The value we return becomes the `fulfilled` action payload
 		return response.data;
 	}
 );
 
-export const fetchExtraJokeAsync = createAsyncThunk(
-	"counter/increment",
-	async (joke: any) => {
-		const response = await fetchExtraJoke(joke);
+export const fetchBonusJokeAsync = createAsyncThunk(
+	"jokebox/increment",
+	async (joke: Joke) => {
+		const response = await fetchBonusJoke(joke);
 		// The value we return becomes the `fulfilled` action payload
 		return response.data;
 	}
 );
 
-export const counterSlice = createSlice({
-	name: "counter",
+export const jokeboxSlice = createSlice({
+	name: "jokebox",
 	initialState,
 	// The `reducers` field lets us define reducers and generate associated actions
 	reducers: {
@@ -76,29 +63,29 @@ export const counterSlice = createSlice({
 			// 	state.status = "idle";
 			// 	state.value += action.payload;
 			// })
-			.addCase(fetchCounterAsync.pending, (state) => {
+			.addCase(fetchJokeboxAsync.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(fetchCounterAsync.fulfilled, (state, action) => {
+			.addCase(fetchJokeboxAsync.fulfilled, (state, action) => {
 				state.status = "idle";
 				state.jokes = action.payload;
 			})
-			.addCase(fetchExtraJokeAsync.pending, (state) => {
+			.addCase(fetchBonusJokeAsync.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(fetchExtraJokeAsync.fulfilled, (state, action) => {
+			.addCase(fetchBonusJokeAsync.fulfilled, (state, action) => {
 				state.status = "idle";
 				state.jokes.push(action.payload);
 			});
 	},
 });
 
-export const { decrement, incrementByAmount } = counterSlice.actions;
+export const { decrement, incrementByAmount } = jokeboxSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectCount = (state: RootState) => state.counter;
+// in the slice file. For example: `useSelector((state: RootState) => state.jokebox.value)`
+export const selectJokebox = (state: RootState) => state.jokebox;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
@@ -111,4 +98,4 @@ export const selectCount = (state: RootState) => state.counter;
 // 		}
 // 	};
 
-export default counterSlice.reducer;
+export default jokeboxSlice.reducer;
