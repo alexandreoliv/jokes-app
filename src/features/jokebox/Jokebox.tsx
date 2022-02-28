@@ -1,15 +1,13 @@
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
 	fetchJokeboxAsync,
-	fetchBonusJokeAsync,
-	removeLastJoke,
 	changeFavourite,
 	selectJokebox,
 } from "./jokeboxSlice";
-import styles from "./Jokebox.module.css";
+import "./Jokebox.css";
 import { Oval } from "react-loader-spinner";
 import connectToServer from "../../components/server";
-import { jokes, bonusJoke } from "../../components/jokes";
+import { jokes } from "../../components/jokes";
 
 connectToServer("http://localhost:3000/api/v1/readiness");
 connectToServer("http://localhost:3000/api/v2/readiness");
@@ -17,52 +15,88 @@ connectToServer("http://localhost:3000/api/v2/readiness");
 export function Jokebox() {
 	const jokebox = useAppSelector(selectJokebox);
 	const dispatch = useAppDispatch();
+	console.log(jokebox);
 
 	return (
-		<div>
-			<div className={styles.row}>
-				<div>
+		<div id="main">
+			<div id="top">
+				<div id="buttons">
 					<button
-						className={styles.asyncButton}
+						className="btn btn-primary"
+						id="asyncButton"
 						onClick={() => dispatch(fetchJokeboxAsync(jokes))}
 					>
 						(Async) Fetch All Jokes
 					</button>
-					<button
-						className={styles.button}
-						onClick={() => dispatch(removeLastJoke())}
-					>
-						Delete Last Joke
-					</button>
-					<button
-						className={styles.button}
-						onClick={() => dispatch(fetchBonusJokeAsync(bonusJoke))}
-					>
-						(Async) Add Bonus Joke
-					</button>
 				</div>
-				<div>
-					{jokebox.status === "loading" && "Loading..."}
-					{jokebox.status === "loading" && (
-						<Oval color="#00BFFF" height={30} width={30} />
+				<div id="status" className="alert alert-secondary" role="alert">
+					<p className="h6">Status:</p>
+					{jokebox.status === "loading" ? (
+						<Oval color="#00BFFF" height={20} width={20} />
+					) : (
+						<p className="h6">Idle</p>
 					)}
-					{jokebox.jokes.map((joke: any) => (
-						<div key={joke.id}>
-							<p>ID: {joke.id}</p>
-							<p>Type: {joke.type}</p>
-							<p>Question: {joke.question}</p>
-							<p>Answer: {joke.answer}</p>
-							<p>Favourite: {joke.favourite ? "Yes" : "No"}</p>
-							<button
-								onClick={() =>
-									dispatch(changeFavourite(joke.id - 1))
-								}
-							>
-								Add to favourites
-							</button>
-						</div>
-					))}
-					{console.log(jokebox)}
+				</div>
+			</div>
+			<div id="bottom">
+				<div id="jokebox">
+					<p className="h4">Jokebox:</p>
+					{jokebox.jokes
+						.filter((joke: any) => joke.type !== "Barista")
+						.filter((joke: any) => !joke.favourite)
+						.map((joke: any) => (
+							<div key={joke.id} id="jokes">
+								<div id="jokeIdType">
+									<p className="h6">
+										<span>ID: </span>
+										{joke.id}
+									</p>
+									<p className="h6">
+										<span>Type: </span>
+										{joke.type}
+									</p>
+								</div>
+								<p className="h6">{joke.question}</p>
+								<p className="h6">{joke.answer}</p>
+								<button
+									id="btn-favourite"
+									onClick={() =>
+										dispatch(changeFavourite(joke.id - 1))
+									}
+								>
+									🤍
+								</button>
+							</div>
+						))}
+				</div>
+				<div id="favourites">
+					<p className="h4">Favourites:</p>
+					{jokebox.jokes
+						.filter((joke: any) => joke.favourite)
+						.map((joke: any) => (
+							<div key={joke.id}>
+								<div id="jokeIdType">
+									<p className="h6">
+										<span>ID: </span>
+										{joke.id}
+									</p>
+									<p className="h6">
+										<span>Type: </span>
+										{joke.type}
+									</p>
+								</div>
+								<p className="h6">{joke.question}</p>
+								<p className="h6">{joke.answer}</p>
+								<button
+									id="btn-favourite"
+									onClick={() =>
+										dispatch(changeFavourite(joke.id - 1))
+									}
+								>
+									❤️
+								</button>
+							</div>
+						))}
 				</div>
 			</div>
 		</div>

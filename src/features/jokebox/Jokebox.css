@@ -1,0 +1,86 @@
+#main {
+	display: flex;
+	flex-direction: column;
+	width: 98vw;
+	margin: 10px 0 0 0;
+	padding: 0;
+}
+
+#top {
+	width: 98vw;
+	height: 7vh;
+	display: flex;
+	justify-content: space-around;
+}
+
+#asyncButton {
+	position: relative;
+}
+
+#asyncButton:after {
+	content: "";
+	background-color: rgba(112, 76, 182, 0.15);
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	transition: width 1s linear, opacity 0.5s ease 1s;
+}
+
+#asyncButton:active:after {
+	width: 0%;
+	opacity: 1;
+	transition: 0s;
+}
+
+#status {
+	display: flex;
+	padding: 10px 0 10px 0;
+}
+
+#status p {
+	padding: 0 5px 0 5px;
+	margin: 0;
+}
+
+#bottom {
+	width: 98vw;
+	display: flex;
+}
+
+#jokeIdType {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin: 30px 0 0 0;
+}
+
+#jokeIdType p {
+	padding: 0 10px 0 10px;
+}
+
+#jokeIdType span {
+	color: blue;
+}
+
+#jokebox {
+	width: 49vw;
+	height: 98vh;
+}
+
+#favourites {
+	width: 49vw;
+	height: 98vh;
+}
+
+#jokes {
+	margin: 20px 0 0 0;
+}
+
+#btn-favourite {
+	border: 0 solid black;
+	background-color: white;
+}

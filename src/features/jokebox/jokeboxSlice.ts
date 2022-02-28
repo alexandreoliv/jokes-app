@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { Joke } from "../../types/Joke";
-import { fetchJokebox, fetchBonusJoke } from "./jokeboxAPI";
+import { fetchJokebox } from "./jokeboxAPI";
 
 export interface JokeboxState {
 	jokes: any[];
@@ -22,23 +21,11 @@ export const fetchJokeboxAsync = createAsyncThunk(
 	}
 );
 
-export const fetchBonusJokeAsync = createAsyncThunk(
-	"jokebox/increment",
-	async (joke: Joke) => {
-		const response = await fetchBonusJoke(joke);
-		// The value we return becomes the `fulfilled` action payload
-		return response.data;
-	}
-);
-
 export const jokeboxSlice = createSlice({
 	name: "jokebox",
 	initialState,
 	// The `reducers` field lets us define reducers and generate associated actions
 	reducers: {
-		removeLastJoke: (state) => {
-			state.jokes.pop();
-		},
 		changeFavourite: (state, action) => {
 			state.jokes[action.payload].favourite =
 				!state.jokes[action.payload].favourite;
@@ -54,18 +41,11 @@ export const jokeboxSlice = createSlice({
 			.addCase(fetchJokeboxAsync.fulfilled, (state, action) => {
 				state.status = "idle";
 				state.jokes = action.payload;
-			})
-			.addCase(fetchBonusJokeAsync.pending, (state) => {
-				state.status = "loading";
-			})
-			.addCase(fetchBonusJokeAsync.fulfilled, (state, action) => {
-				state.status = "idle";
-				state.jokes.push(action.payload);
 			});
 	},
 });
 
-export const { removeLastJoke, changeFavourite } = jokeboxSlice.actions;
+export const { changeFavourite } = jokeboxSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
